@@ -8,7 +8,7 @@ object Constants {
     const val ENGLISH_LANG = "en"
     const val PERSIAN_LANG = "fa"
     const val DATASTORE_NAME = "my_digikala_data_store"
-    const val BASE_URL = "https://truelearn-digikala.iran.liara.run/api/"
+    const val BASE_URL = "http://rezamotahari1375.ir/"
     const val PURCHASE_URL = "https://api.zarinpal.com/pg/v4/payment/"
     const val ZARINPAL_PAYMENT_URL = "https://www.zarinpal.com/pg/StartPay/"
     const val TIMEOUT_IN_SECOND: Long = 60

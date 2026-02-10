@@ -5,5 +5,5 @@ plugins {
     alias(libs.plugins.kotlin.compose) apply false
 
     id("androidx.room") version "2.8.4" apply false
-    id("com.google.dagger.hilt.android") version "2.50" apply false
+    id("com.google.dagger.hilt.android") version "2.57.1" apply false
 }

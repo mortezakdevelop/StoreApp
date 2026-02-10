@@ -35,6 +35,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -85,10 +86,10 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
     //hilt di
-    val hiltVersion = "2.50"
+    val hiltVersion = "2.57.1"
     implementation("com.google.dagger:hilt-android:$hiltVersion")
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
-    kapt("com.google.dagger:hilt-android-compiler:2.50")
+    implementation("androidx.hilt:hilt-navigation-compose:1.3.0")
+    kapt("com.google.dagger:hilt-android-compiler:2.57.1")
 
     //data store
     implementation("androidx.datastore:datastore-preferences:1.1.1")
