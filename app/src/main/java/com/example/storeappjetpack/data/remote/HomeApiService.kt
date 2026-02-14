@@ -1,7 +1,6 @@
 package com.example.storeappjetpack.data.remote
 
-import com.example.storeappjetpack.data.dto.BannerDto
-import retrofit2.Response
+import com.example.storeappjetpack.data.remote.dto.BannerDto
 import retrofit2.http.GET
 
 interface HomeApiService {

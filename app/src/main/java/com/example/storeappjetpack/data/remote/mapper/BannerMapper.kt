@@ -1,13 +1,7 @@
-package com.example.storeappjetpack.data.dto
+package com.example.storeappjetpack.data.remote.mapper
 
+import com.example.storeappjetpack.data.remote.dto.BannerDto
 import com.example.storeappjetpack.domain.model.BannerModel
-
-data class BannerDto(
-    val id: Int,
-    val image: String,
-    val type: String,
-    val link: String
-)
 
 fun BannerDto.toDomain(): BannerModel =
     BannerModel(
@@ -16,3 +10,5 @@ fun BannerDto.toDomain(): BannerModel =
         type = type,
         link = link
     )
+
+

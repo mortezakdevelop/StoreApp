@@ -1,7 +1,7 @@
 package com.example.storeappjetpack.data.repository
 
-import com.example.storeappjetpack.data.dto.toDomain
 import com.example.storeappjetpack.data.remote.HomeApiService
+import com.example.storeappjetpack.data.remote.mapper.toDomain
 import com.example.storeappjetpack.domain.AppError
 import com.example.storeappjetpack.domain.ResponseResult
 import com.example.storeappjetpack.domain.model.BannerModel
