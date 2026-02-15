@@ -17,8 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getBannerHomeUseCase: GetBannerHomeUseCase
-): ViewModel() {
-
+) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeState())
     val state: StateFlow<HomeState> = _state
@@ -29,13 +28,19 @@ class HomeViewModel @Inject constructor(
     init {
         loadBanners()
     }
+
     fun progressIntent(intent: HomeIntent) {
         when (intent) {
-            HomeIntent.Load,
-            HomeIntent.Retry -> loadBanners()
-
             is HomeIntent.OnBannerClick -> viewModelScope.launch {
                 _effect.emit(HomeEffect.OpenBanner(intent.banner.type, intent.banner.link))
+            }
+
+            is HomeIntent.OnSearchQueryChange -> _state.update {
+                it.copy(querySearch = intent.query)
+            }
+
+            is HomeIntent.OnSearchSubmit -> {
+                //call api when search something
             }
         }
     }

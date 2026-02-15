@@ -18,10 +18,11 @@ import com.example.storeappjetpack.domain.model.BannerModel
 @Composable
 fun GlideBannerItem(
     banner: BannerModel,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = Modifier
+        modifier
             .size(width = 300.dp, height = 180.dp)
             .clip(RoundedCornerShape(16.dp))
             .clickable(onClick = onClick)
