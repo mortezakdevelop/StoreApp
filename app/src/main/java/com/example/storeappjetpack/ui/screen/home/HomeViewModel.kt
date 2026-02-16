@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.storeappjetpack.domain.AppError
 import com.example.storeappjetpack.domain.ResponseResult
 import com.example.storeappjetpack.domain.usecase.GetBannerHomeUseCase
+import com.example.storeappjetpack.domain.usecase.GetHomeCategoryUseCase
+import com.example.storeappjetpack.ui.screen.home.HomeEffect.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getBannerHomeUseCase: GetBannerHomeUseCase
+    private val getBannerHomeUseCase: GetBannerHomeUseCase,
+    private val getHomeCategoryUseCase: GetHomeCategoryUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeState())
@@ -27,12 +30,13 @@ class HomeViewModel @Inject constructor(
 
     init {
         loadBanners()
+        loadHomeCategory()
     }
 
     fun progressIntent(intent: HomeIntent) {
         when (intent) {
             is HomeIntent.OnBannerClick -> viewModelScope.launch {
-                _effect.emit(HomeEffect.OpenBanner(intent.banner.type, intent.banner.link))
+                _effect.emit(OpenBanner(intent.banner.type, intent.banner.link))
             }
 
             is HomeIntent.OnSearchQueryChange -> _state.update {
@@ -41,6 +45,10 @@ class HomeViewModel @Inject constructor(
 
             is HomeIntent.OnSearchSubmit -> {
                 //call api when search something
+            }
+
+            is HomeIntent.OnCategoryClick -> viewModelScope.launch {
+                _effect.emit(OpenCategory(intent.category.id))
             }
         }
     }
@@ -57,6 +65,21 @@ class HomeViewModel @Inject constructor(
                 val msg = result.error.toUiMessage()
                 _state.update { it.copy(isLoading = false, errorText = msg) }
                 _effect.emit(HomeEffect.ShowToast(msg))
+            }
+        }
+    }
+
+    private fun loadHomeCategory() = viewModelScope.launch {
+        _state.update { it.copy(isCategoryLoading = true,errorText = null) }
+
+        when (val result = getHomeCategoryUseCase()){
+            is ResponseResult.Success -> {
+                _state.update { it.copy(isCategoryLoading = false, category = result.data) }
+            }
+            is ResponseResult.Error -> {
+                val message = result.error.toUiMessage()
+                _state.update { it.copy(isCategoryLoading = false, errorText = message) }
+                _effect.emit(HomeEffect.ShowToast(message))
             }
         }
     }

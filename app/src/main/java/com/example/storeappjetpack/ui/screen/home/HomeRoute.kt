@@ -30,6 +30,10 @@ fun HomeRoute(
                 is HomeEffect.OpenBanner -> {
                     //navigate to another screen
                 }
+
+                is HomeEffect.OpenCategory -> {
+                    //navigate to another screen
+                }
             }
         }
     }

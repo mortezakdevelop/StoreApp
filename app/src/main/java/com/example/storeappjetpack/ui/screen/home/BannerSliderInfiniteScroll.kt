@@ -44,15 +44,12 @@ fun BannerSliderInfiniteScroll(
         if (banners.size <= 1) return@LaunchedEffect
 
         while (isActive) {
-            // اگر کاربر داره اسکرول می‌کنه، صبر کن تا تموم بشه
             while (pagerState.isScrollInProgress && isActive) {
                 delay(100)
             }
 
-            // بعد از اینکه کاربر ول کرد، یه مکث کوتاه برای UX بهتر
             delay(autoScrollDelayMs)
 
-            // دوباره چک کن شاید کاربر وسط delay دوباره اسکرول کرد
             if (pagerState.isScrollInProgress) continue
 
             try {

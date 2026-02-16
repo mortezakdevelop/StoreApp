@@ -3,7 +3,6 @@ package com.example.storeappjetpack.data.di
 import com.example.storeappjetpack.data.remote.HomeApiService
 import com.example.storeappjetpack.data.repository.HomeRepositoryImpl
 import com.example.storeappjetpack.domain.repository.HomeRepository
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,4 +24,5 @@ object HomeModule {
     @Singleton
     fun provideHomeRepository(homeApiService: HomeApiService): HomeRepository =
         HomeRepositoryImpl(homeApiService)
+
 }
