@@ -40,4 +40,8 @@ object Extensions{
 
         background(brush)
     }
+
+    fun formatPrice(value: Int): String = "%,d".format(value) + " تومان"
+
+    fun formatSellsCount(count: Int): String = "فروش: $count"
 }

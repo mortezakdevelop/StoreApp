@@ -34,6 +34,10 @@ fun HomeRoute(
                 is HomeEffect.OpenCategory -> {
                     //navigate to another screen
                 }
+
+                is HomeEffect.OpenAmazing -> {
+                    // navigate to another screen
+                }
             }
         }
     }

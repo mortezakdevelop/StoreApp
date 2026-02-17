@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.storeappjetpack.domain.AppError
 import com.example.storeappjetpack.domain.ResponseResult
 import com.example.storeappjetpack.domain.usecase.GetBannerHomeUseCase
+import com.example.storeappjetpack.domain.usecase.GetHomeAmazingUseCase
 import com.example.storeappjetpack.domain.usecase.GetHomeCategoryUseCase
 import com.example.storeappjetpack.ui.screen.home.HomeEffect.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getBannerHomeUseCase: GetBannerHomeUseCase,
-    private val getHomeCategoryUseCase: GetHomeCategoryUseCase
+    private val getHomeCategoryUseCase: GetHomeCategoryUseCase,
+    private val getHOmeAmazingUseCase: GetHomeAmazingUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeState())
@@ -31,6 +33,7 @@ class HomeViewModel @Inject constructor(
     init {
         loadBanners()
         loadHomeCategory()
+        loadHomeAmazing()
     }
 
     fun progressIntent(intent: HomeIntent) {
@@ -49,6 +52,10 @@ class HomeViewModel @Inject constructor(
 
             is HomeIntent.OnCategoryClick -> viewModelScope.launch {
                 _effect.emit(OpenCategory(intent.category.id))
+            }
+
+            is HomeIntent.OnAmazingClick -> viewModelScope.launch {
+                _effect.emit(OpenAmazing(intent.id))
             }
         }
     }
@@ -79,6 +86,21 @@ class HomeViewModel @Inject constructor(
             is ResponseResult.Error -> {
                 val message = result.error.toUiMessage()
                 _state.update { it.copy(isCategoryLoading = false, errorText = message) }
+                _effect.emit(HomeEffect.ShowToast(message))
+            }
+        }
+    }
+
+    private fun loadHomeAmazing() = viewModelScope.launch {
+        _state.update { it.copy(isAmazingLoading = true, errorText = null) }
+
+        when(val result = getHOmeAmazingUseCase()){
+            is ResponseResult.Success -> {
+                _state.update { it.copy(isAmazingLoading = false, amazing = result.data ) }
+            }
+            is ResponseResult.Error -> {
+                val message = result.error.toUiMessage()
+                _state.update { it.copy(isAmazingLoading = false, errorText = message) }
                 _effect.emit(HomeEffect.ShowToast(message))
             }
         }

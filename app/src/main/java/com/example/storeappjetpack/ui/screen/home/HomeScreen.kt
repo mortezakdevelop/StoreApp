@@ -32,6 +32,13 @@ fun HomeScreen(
             onCategoryClick = {onIntent(HomeIntent.OnCategoryClick(it))}
         )
 
+        AmazingProductsRow(
+            products = state.amazing,
+            onProductClick = { productId ->
+                onIntent(HomeIntent.OnAmazingClick(productId))
+            }
+        )
+
         //continue home ...
     }
 }
