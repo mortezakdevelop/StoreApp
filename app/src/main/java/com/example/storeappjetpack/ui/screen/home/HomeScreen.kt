@@ -33,12 +33,12 @@ fun HomeScreen(
         )
 
         AmazingProductsRow(
+            state  = state,
             products = state.amazing,
             onProductClick = { productId ->
                 onIntent(HomeIntent.OnAmazingClick(productId))
             }
         )
 
-        //continue home ...
     }
 }

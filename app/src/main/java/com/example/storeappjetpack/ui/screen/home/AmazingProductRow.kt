@@ -20,35 +20,46 @@ import com.example.storeappjetpack.domain.model.HomeAmazingModel
 
 @Composable
 fun AmazingProductsRow(
+    state: HomeState,
     products: List<HomeAmazingModel>,
     onProductClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    if (products.isEmpty()) return
-
-    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl){
-        LazyRow(
-            modifier = modifier
-                .fillMaxWidth()
-                .height(280.dp)
-                .background(Color(0xFF66C96A))
-                .padding(4.dp),
-            contentPadding = PaddingValues(horizontal = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            item {
-                AmazingFirstItem(
-                    onClick = { }
-                )
+    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+        when {
+            state.isAmazingLoading -> {
+                AmazingRowShimmer()
             }
 
-            items(products, key = { it.id }) { product ->
-                AmazingProductItem(
-                    product = product,
-                    onClick = { onProductClick(product.id) }
-                )
+            state.errorText != null -> {
+
+            }
+
+            state.amazing.isNotEmpty() -> {
+                LazyRow(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .height(280.dp)
+                        .background(Color(0xFF66C96A))
+                        .padding(4.dp),
+                    contentPadding = PaddingValues(horizontal = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    item {
+                        AmazingFirstItem(
+                            onClick = { }
+                        )
+                    }
+
+                    items(products, key = { it.id }) { product ->
+                        AmazingProductItem(
+                            product = product,
+                            onClick = { onProductClick(product.id) }
+                        )
+                    }
+                }
             }
         }
     }
